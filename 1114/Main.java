@@ -8,7 +8,7 @@ public class Main {
         Runnable printSecond = () -> System.out.print("second");
         Runnable printThird = () -> System.out.print("third");
 
-        Foo foo = new Foo();
+        Foo3 foo = new Foo3();
 
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
