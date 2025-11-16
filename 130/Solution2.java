@@ -6,7 +6,6 @@ import java.util.Map;
 public class Solution2 {
     private static final char REGION = 'O';
     private static final char NON_REGION = 'X';
-    List<List<Integer>> regionsGraph = new ArrayList<>();
 
     public void solve(char[][] board) {
         if (board == null || board.length == 0 || board[0].length == 0) {
@@ -15,31 +14,22 @@ public class Solution2 {
 
         int numRows = board.length;
         int numCols = board[0].length;
-        int totalCells = numRows * numCols;
 
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                regionsGraph.add(new ArrayList<>());
-            }
+        boolean[][] visited = new boolean[numRows][numCols];
+
+        for (int col = 0; col < numCols; col++) {
+            dfs(board, 0, col, visited);
+            dfs(board, numRows - 1, col, visited);
         }
 
-        boolean[] visited = new boolean[totalCells];
-        boolean[] isConnectedToBorder = new boolean[totalCells];
-
-        Map<Integer, Integer> indexToGroupIdMap = new HashMap<>();
-        Map<Integer, List<Integer>> groupIdToPathMap = new HashMap<>();
-        for (int i = 0; i < totalCells; i++) {
-
-            if (!visited[i]) {
-                dfs(board, i, visited, isConnectedToBorder, indexToGroupIdMap, groupIdToPathMap, i);
-            }
+        for (int row = 0; row < numRows; row++) {
+            dfs(board, row, 0, visited);
+            dfs(board, row, numCols - 1, visited);
         }
 
-        for (int groupId = 0; groupId < totalCells; groupId++) {
-            if (groupIdToPathMap.containsKey(groupId) && !isConnectedToBorder[groupId]) {
-                for (int cellIndex : groupIdToPathMap.get(groupId)) {
-                    int row = cellIndex / numCols;
-                    int col = cellIndex % numCols;
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                if (!visited[row][col] && board[row][col] == REGION) {
                     board[row][col] = NON_REGION;
                 }
             }
@@ -47,37 +37,20 @@ public class Solution2 {
 
     }
 
-    private void dfs(char[][] board, int cellIndex, boolean[] visited, boolean[] isConnectedToBorder,
-            Map<Integer, Integer> indexToGroupIdMap,
-            Map<Integer, List<Integer>> groupIdToPathMap,
-            int groupId) {
-        if (cellIndex >= board.length * board[0].length || visited[cellIndex]) {
-            return;
-        }
-        visited[cellIndex] = true;
-        int numRows = board.length;
-        int numCols = board[0].length;
-        int row = cellIndex / numCols;
-        int col = cellIndex % numCols;
-
-        if (board[row][col] != REGION) {
+    private void dfs(char[][] board, int row, int col, boolean[][] visited) {
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length || visited[row][col]) {
             return;
         }
 
-        if (row == 0 || row == numRows - 1 || col == 0 || col == numCols - 1) {
-            isConnectedToBorder[groupId] = true;
+        visited[row][col] = true;
+
+        if (board[row][col] == NON_REGION) {
+            return;
         }
 
-        indexToGroupIdMap.put(cellIndex, groupId);
-        groupIdToPathMap.computeIfAbsent(groupId, k -> new ArrayList<>()).add(cellIndex);
-
-        dfs(board, (row + 1) * numCols + col, visited, isConnectedToBorder, indexToGroupIdMap, groupIdToPathMap,
-                groupId);
-        dfs(board, row * numCols + col + 1, visited, isConnectedToBorder, indexToGroupIdMap, groupIdToPathMap,
-                groupId);
-        dfs(board, (row - 1) * numCols + col, visited, isConnectedToBorder, indexToGroupIdMap, groupIdToPathMap,
-                groupId);
-        dfs(board, row * numCols + col - 1, visited, isConnectedToBorder, indexToGroupIdMap, groupIdToPathMap,
-                groupId);
+        dfs(board, row + 1, col, visited);
+        dfs(board, row - 1, col, visited);
+        dfs(board, row, col + 1, visited);
+        dfs(board, row, col - 1, visited);
     }
 }
