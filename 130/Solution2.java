@@ -37,14 +37,20 @@ public class Solution2 {
 
     }
 
-    private void dfs(char[][] board, int row, int col, boolean[][] visited) {
-        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length || visited[row][col]) {
+    private void dfs(char[][] board, int cellIndex, boolean[] visited, boolean[] isConnectedToBorder,
+            Map<Integer, Integer> indexToGroupIdMap,
+            Map<Integer, List<Integer>> groupIdToPathMap,
+            int groupId) {
+        if (cellIndex < 0 || cellIndex >= board.length * board[0].length || visited[cellIndex]) {
             return;
         }
+        visited[cellIndex] = true;
+        int numRows = board.length;
+        int numCols = board[0].length;
+        int row = cellIndex / numCols;
+        int col = cellIndex % numCols;
 
-        visited[row][col] = true;
-
-        if (board[row][col] == NON_REGION) {
+        if (board[row][col] != REGION) {
             return;
         }
 
