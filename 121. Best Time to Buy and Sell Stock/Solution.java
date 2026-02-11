@@ -45,6 +45,20 @@ public class Solution {
 
     }
 
+    public int maxProfitUsingTwoPointers(int[] prices) {
+        int left = prices[0];
+        int maxProfit = 0;
+        for (int right : prices) {
+            if (right > left) {
+                maxProfit = Math.max(maxProfit, right - left);
+            } else {
+                left = right;
+            }
+        }
+
+        return maxProfit;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[] prices = { 7, 1, 5, 3, 6, 4 };
