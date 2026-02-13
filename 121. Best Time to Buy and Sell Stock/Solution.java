@@ -1,30 +1,27 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class Solution {
     public int maxProfit(int[] prices) {
         int n = prices.length;
         int l = 0;
         int r = n - 1;
-        Map<Integer, Map<Integer, Integer>> memo = new HashMap<>();
+        int[][] memo = new int[n][n];
 
         return maxProfitHelper(prices, l, r, memo);
     }
 
-    private int maxProfitHelper(int[] prices, int l, int r, Map<Integer, Map<Integer, Integer>> memo) {
+    private int maxProfitHelper(int[] prices, int l, int r, int[][] memo) {
         if (l >= r) {
             return 0;
         }
 
-        if (memo.containsKey(l) && memo.get(l).containsKey(r)) {
-            return memo.get(l).get(r);
+        if (memo[l][r] != 0) {
+            return memo[l][r];
         }
 
         int leftJump = maxProfitHelper(prices, l + 1, r, memo);
         int rightJump = maxProfitHelper(prices, l, r - 1, memo);
 
         int result = Math.max(Math.max(leftJump, rightJump), prices[r] - prices[l]);
-        memo.computeIfAbsent(l, key -> new HashMap<>()).put(r, result);
+        memo[l][r] = result;
         return result;
     }
 
