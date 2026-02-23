@@ -1,4 +1,6 @@
 public class Solution2 {
+    private int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+
     public int numIslands(char[][] grid) {
         int n = grid.length;
         int m = grid[0].length;
@@ -27,5 +29,20 @@ public class Solution2 {
         dfs(grid, i - 1, j, n, m);
         dfs(grid, i, j + 1, n, m);
         dfs(grid, i, j - 1, n, m);
+    }
+
+    private void dfs2(char[][] grid, int rowIndex, int columnIndex, int numRows, int numCols) {
+        if (rowIndex < 0 || columnIndex < 0 || rowIndex >= numRows || columnIndex >= numCols
+                || grid[rowIndex][columnIndex] == '0') {
+            return;
+        }
+
+        grid[rowIndex][columnIndex] = '0'; // Mark as visited by sinking the island
+
+        for (int[] direction : directions) {
+            int r = rowIndex + direction[0];
+            int c = columnIndex + direction[1];
+            dfs2(grid, r, c, numRows, numCols);
+        }
     }
 }
