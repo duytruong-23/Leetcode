@@ -53,6 +53,18 @@ public class LFUCache {
             minFrequency = frequency + 1;
         }
     }
+
+    public static void main(String[] args) {
+        LFUCache cache = new LFUCache(2);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        System.out.println(cache.get(1)); // returns 1
+        cache.put(3, 3); // evicts key 2
+        System.out.println(cache.get(2)); // returns -1 (not found)
+        cache.put(4, 4); // evicts key 3
+        System.out.println(cache.get(3)); // returns -1 (not found)
+        System.out.println(cache.get(4)); // returns 4
+    }
 }
 
 class DLList {
@@ -66,6 +78,7 @@ class DLList {
 
     public void addFirst(Node node) {
         node.next = head.next;
+        head.next.previous = node;
         head.next = node;
         node.previous = head;
     }
