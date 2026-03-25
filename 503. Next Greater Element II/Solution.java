@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Stack;
 
 public class Solution {
+    // Approach 1: Using a HashMap to store the next greater elements
+    // Time Complexity: O(n), Space Complexity: O(n)
     public int[] nextGreaterElements(int[] nums) {
         int n = nums.length;
         int[] result = new int[n];
@@ -31,6 +33,9 @@ public class Solution {
 
     }
 
+    // Approach 2: Using a Stack to find the next greater elements in a circular
+    // manner
+    // Time Complexity: O(n), Space Complexity: O(n)
     public int[] nextGreaterElements2(int[] nums) {
         int n = nums.length;
         int[] result = new int[n];
