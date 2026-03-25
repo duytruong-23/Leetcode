@@ -39,18 +39,26 @@ public class Solution {
 
     private int calculateXSum(Map<Integer, Integer> freqMap, int x) {
         int xSum = 0;
-        List<Entry<Integer, Integer>> freqList = new ArrayList<>(freqMap.entrySet());
+        List<int[]> freqList = new ArrayList<>();
+
+        for (Entry<Integer, Integer> entry : freqMap.entrySet()) {
+            int[] entryArr = { entry.getKey(), entry.getValue() };
+            freqList.add(entryArr);
+        }
+
+        // Sort by frequency descending, then by number descending
         freqList.sort((a, b) -> {
-            if (b.getValue().equals(a.getValue())) {
-                return b.getKey() - a.getKey();
+            if (a[1] == b[1]) {
+                return Integer.compare(b[0], a[0]);
             }
-            return b.getValue() - a.getValue();
+            return Integer.compare(b[1], a[1]);
         });
 
         int numsCounted = Math.min(x, freqList.size());
 
         for (int i = 0; i < numsCounted; i++) {
-            xSum += freqList.get(i).getKey() * freqList.get(i).getValue();
+            int[] entryArr = freqList.get(i);
+            xSum += entryArr[0] * entryArr[1];
         }
 
         return xSum;
