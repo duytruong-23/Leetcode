@@ -5,6 +5,9 @@ import java.util.Set;
 
 public class Solution {
     // Brute force solution
+    // Time complexity: O(n^3) - two nested loops and contains() method
+    // Space complexity: O(n) - checkedString can grow up to the length of the input
+    // string
     public int lengthOfLongestSubstring(String s) {
         int longestLength = 0;
         int n = s.length();
@@ -26,6 +29,10 @@ public class Solution {
     }
 
     // Brute force using HashSet
+    // Time complexity: O(n^2) - two nested loops and contains() method on HashSet
+    // is O(1) on average
+    // Space complexity: O(n) - HashSet can grow up to the length of the input
+    // string
     public int lengthOfLongestSubstring2(String s) {
         int longestLength = 0;
         int n = s.length();
@@ -47,6 +54,8 @@ public class Solution {
     }
 
     // Optimized version
+    // Time complexity: O(n) - each character is visited at most twice
+    // Space complexity: O(min(m, n)) - where m is the size of the character set
     public int lengthOfLongestSubstring3(String s) {
         int longestLength = 0;
         int n = s.length();
