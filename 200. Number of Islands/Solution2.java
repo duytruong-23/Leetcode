@@ -18,6 +18,8 @@ public class Solution2 {
         return countIslands;
     }
 
+    // Time Complexity: O(n * m) - We visit each cell at most once.
+    // Space Complexity: O(n * m) - In the worst case, the grid is
     private void dfs(char[][] grid, int i, int j, int n, int m) {
         if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] == '0') {
             return;
@@ -31,6 +33,9 @@ public class Solution2 {
         dfs(grid, i, j - 1, n, m);
     }
 
+    // Alternative DFS implementation using a loop and a stack instead of recursion
+    // Time Complexity: O(n * m) - We visit each cell at most once.
+    // Space Complexity: O(n * m) - In the worst case, the grid is
     private void dfs2(char[][] grid, int rowIndex, int columnIndex, int numRows, int numCols) {
         if (rowIndex < 0 || columnIndex < 0 || rowIndex >= numRows || columnIndex >= numCols
                 || grid[rowIndex][columnIndex] == '0') {

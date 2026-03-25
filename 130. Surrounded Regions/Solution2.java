@@ -1,8 +1,3 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Solution2 {
     private static final char REGION = 'O';
     private static final char NON_REGION = 'X';
@@ -37,20 +32,18 @@ public class Solution2 {
 
     }
 
-    private void dfs(char[][] board, int cellIndex, boolean[] visited, boolean[] isConnectedToBorder,
-            Map<Integer, Integer> indexToGroupIdMap,
-            Map<Integer, List<Integer>> groupIdToPathMap,
-            int groupId) {
-        if (cellIndex < 0 || cellIndex >= board.length * board[0].length || visited[cellIndex]) {
+    // Depth-First Search to mark connected 'O's as visited
+    // Time Complexity: O(m * n) where m is the number of rows and n is the number
+    // of columns
+    // Space Complexity: O(m * n) in the worst case when all cells are 'O'
+    private void dfs(char[][] board, int row, int col, boolean[][] visited) {
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length || visited[row][col]) {
             return;
         }
-        visited[cellIndex] = true;
-        int numRows = board.length;
-        int numCols = board[0].length;
-        int row = cellIndex / numCols;
-        int col = cellIndex % numCols;
 
-        if (board[row][col] != REGION) {
+        visited[row][col] = true;
+
+        if (board[row][col] == NON_REGION) {
             return;
         }
 
